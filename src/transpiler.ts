@@ -9,10 +9,10 @@ export class Transpiler {
   }
 
   transpile(input: string) {
-    for (const rule of this.rules) {
+    for (const [line,rule] of this.rules.entries()) {
       const result = rule.match(input)
       if (result !== null) {
-        return rule.fill(result)
+        return { line, result: rule.fill(result) }
       }
     }
     throw new Error(`No transpilation rule matched the input: ${input}`)
