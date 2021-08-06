@@ -1,0 +1,31 @@
+{
+  "name": "@tv2media/command-transpiler",
+  "version": "1.0.0",
+  "description": "Transpiles commands from one protocol to another.",
+  "main": "lib/index.js",
+  "types": "lib/index.js",
+  "author": {
+    "name": "Anders Frederik Jørgensen",
+    "email": "afjo@tv2.dk"
+  },
+  "license": "MIT",
+  "scripts": {
+    "prepare": "tsc --build",
+    "bundle": "npm pack",
+    "release": "standard-version",
+    "test": "jest __tests__",
+    "test:unit": "jest --verbose __tests__/unit",
+    "test:domain": "jest --verbose __tests__/domain"
+  },
+  "files": [
+    "lib"
+  ],
+  "devDependencies": {
+    "@types/jest": "^26.0.24",
+    "@types/node": "^16.4.13",
+    "jest": "^27.0.6",
+    "standard-version": "^9.3.1",
+    "ts-jest": "^27.0.4",
+    "typescript": "^4.3.5"
+  }
+}
