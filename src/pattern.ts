@@ -6,11 +6,13 @@ import { Modifiable } from './modifiable'
 export class Pattern extends Modifiable {
 
   private pattern: RegExp | null
+  private caseSensitive: boolean
 
-  constructor(raw: string) {
+  constructor(raw: string, caseSensitive: boolean = true) {
     super(raw)
     this.raw = `^${this.raw}$`
     this.pattern = null
+    this.caseSensitive = caseSensitive
   }
 
   /**
@@ -20,7 +22,7 @@ export class Pattern extends Modifiable {
   match(input: string): object | null {
     // Compile pattern
     if (this.pattern === null) {
-      this.pattern = new RegExp(this.raw)
+      this.pattern = new RegExp(this.raw, this.caseSensitive ? '' : 'i')
     }
 
     // Match
