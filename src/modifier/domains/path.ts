@@ -1,5 +1,5 @@
 import { ModifierDomain } from '../domain'
-import { basename, parse, win32 } from 'path'
+import { basename, dir } from '../../utilities/filesystem'
 
 export class PathModifierDomain extends ModifierDomain {
 
@@ -13,11 +13,11 @@ export class PathModifierDomain extends ModifierDomain {
     this.tools = [
       {
         pattern: /basename/,
-        modifier: (value: string) => (process.platform === 'win32' ? win32.basename : basename)(value)
+        modifier: (value: string) => basename(value)
       },
       {
         pattern: /dir/,
-        modifier: (value: string) => (process.platform === 'win32' ? win32.parse : parse)(value).dir
+        modifier: (value: string) => dir(value)
       },
     ]
     this.build()
