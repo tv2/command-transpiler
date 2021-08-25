@@ -1,6 +1,5 @@
-export * from './default-collection'
-export * as modifier from './modifier'
-export * from './template'
-export * from './pattern'
-export * from './transpiler'
-export * from './rules'
+import { pattern } from './parser'
+
+const result = pattern.parse('we have #{ number : dogs | toInteger | inc 5 | dec | inc | dec 10 } dogs.')
+
+console.log(JSON.stringify(result, null, 4))
