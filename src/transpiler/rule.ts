@@ -8,22 +8,21 @@ export class Rule {
   protected template: Template
   protected condition: Condition | null
 
-  constructor(pattern: Pattern, template: Template, condition: Condition | null = null) {
-    this.pattern = pattern
-    this.template = template
-    this.condition = condition
+  constructor(pattern: Pattern | string, template: Template | string, condition: Condition | string | null = null) {
+    this.pattern = typeof pattern === 'string' ? new Pattern(pattern) : pattern
+    this.template = typeof template === 'string' ? new Template(template) : template
+    this.condition = typeof condition === 'string' ? new Condition(condition) : condition
   }
 
   public match(text: string): IStore | null {
-      return this.pattern.match(text)
+    return this.pattern.match(text)
   }
 
-  public check(_: any, _1: IStore): boolean  {
+  public check(_: any, _1: IStore): boolean {
     return true
   }
 
   public fill(_: IStore): string {
     return ''
   }
-
 }
