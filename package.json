@@ -10,12 +10,13 @@
   },
   "license": "MIT",
   "scripts": {
+    "publish:npm": "yarn publish --access=public",
     "prepare": "tsc --build",
     "bundle": "npm pack",
     "release": "standard-version",
-    "test": "jest __tests__",
-    "test:unit": "jest --verbose __tests__/unit",
-    "test:domain": "jest --verbose __tests__/domain"
+    "test": "jest --coverage=true __tests__",
+    "test:unit": "jest --coverage=true --verbose __tests__/unit",
+    "test:domain": "jest --coverage=true --verbose __tests__/domain"
   },
   "files": [
     "dist"

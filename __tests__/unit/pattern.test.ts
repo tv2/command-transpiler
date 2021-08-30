@@ -1,4 +1,4 @@
-const Pattern = require('../../src').Pattern
+const Pattern = require('../../src/pattern').Pattern
 
 test('no modifier patterns', () => {
   const pattern = new Pattern('this is a pattern')
