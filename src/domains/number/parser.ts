@@ -5,7 +5,7 @@ import { IModifier, IBaseModifier } from '../../common/types'
 const domain = 'number'
 
 export default function parseBaseModifier(): IParser<IBaseModifier> {
-  return map(string(domain), () => ({ domain, modifier: 'base', pattern: '[0-9]+' }))
+  return map(string(domain), () => ({ domain, modifier: 'base', pattern: '-?[0-9]+' }))
 }
 
 export function parseToInteger(): IParser<IModifier> {
@@ -42,5 +42,12 @@ export function parseMod(): IParser<IModifier> {
     args: {
       amount: parseInt(amount, 10),
     },
+  }))
+}
+
+export function parseAbs(): IParser<IModifier> {
+  return map(string('abs'), () => ({
+    domain: 'number',
+    modifier: 'abs',
   }))
 }

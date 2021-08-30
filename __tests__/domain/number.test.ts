@@ -8,12 +8,12 @@ test('parsing a number', () => {
   expect(rule.match('I have 12 dogs')).toEqual({ dogs: 12 })
 })
 
-test('parsing a number to Integer', () => {
+test('parsing a negative number', () => {
   const rule = new Rule('I have #{ number : dogs } dogs', '')
 
-  expect(rule.match('I have 0 dogs')).toEqual({ dogs: 0 })
-  expect(rule.match('I have 5 dogs')).toEqual({ dogs: 5 })
-  expect(rule.match('I have 12 dogs')).toEqual({ dogs: 12 })
+  expect(rule.match('I have -0 dogs')).toEqual({ dogs: -0 })
+  expect(rule.match('I have -5 dogs')).toEqual({ dogs: -5 })
+  expect(rule.match('I have -12 dogs')).toEqual({ dogs: -12 })
 })
 
 test('parsing a number + 1', () => {
@@ -53,4 +53,14 @@ test('parsing a number % 2', () => {
   expect(rule.match('I have 0 dogs')).toEqual({ dogs: 0 })
   expect(rule.match('I have 5 dogs')).toEqual({ dogs: 1 })
   expect(rule.match('I have 12 dogs')).toEqual({ dogs: 0 })
+})
+
+test('parsing a absolute number', () => {
+  const rule = new Rule('I have #{ number : dogs | abs } dogs', '')
+
+  expect(rule.match('I have 0 dogs')).toEqual({ dogs: 0 })
+  expect(rule.match('I have 5 dogs')).toEqual({ dogs: 5 })
+  expect(rule.match('I have -5 dogs')).toEqual({ dogs: 5 })
+  expect(rule.match('I have 12 dogs')).toEqual({ dogs: 12 })
+  expect(rule.match('I have -12 dogs')).toEqual({ dogs: 12 })
 })
