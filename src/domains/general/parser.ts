@@ -13,6 +13,10 @@ export function parseToString(): IParser<IModifier> {
   return map(string('toString'), () => ({ domain, modifier: 'toString' }))
 }
 
+export function parseDefault(): IParser<IModifier> {
+  return map(pipe(string('default'), ws1, parseLiteral()), (value) => ({ domain, modifier: 'default', args: { value } }))
+}
+
 export function parseEqual(): IParser<IModifier> {
   return map(pipe(string('equal'), ws1, parseLiteral()), (value) => ({ domain, modifier: 'equal', args: { value } }))
 }

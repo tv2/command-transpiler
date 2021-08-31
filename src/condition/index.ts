@@ -8,11 +8,15 @@ export class Condition {
 
   constructor(raw: string) {
     this.raw = raw
-    const condition = parse(raw)
-    if (condition.success === false) {
-      throw new Error('Condition parsing failed with context: ' + JSON.stringify(condition))
+    if (this.raw.trim() !== '') {
+      const condition = parse(raw)
+      if (condition.success === false) {
+        throw new Error('Condition parsing failed with context: ' + JSON.stringify(condition))
+      }
+      this.interpret = interpret(condition.value)
+    } else {
+      this.interpret = (_: IStore) => true
     }
-    this.interpret = interpret(condition.value)
   }
 
   public check(store: IStore): boolean {

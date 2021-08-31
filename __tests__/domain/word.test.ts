@@ -1,4 +1,4 @@
-const { Pattern } = require('../../src/pattern')
+const { Pattern } = require('../../src')
 
 test('parsing a word', () => {
   const pattern = new Pattern('#{ word: word }')

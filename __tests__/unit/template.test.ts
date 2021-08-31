@@ -1,5 +1,19 @@
 const Template = require('../../src/template').Template
 
+test('incorrect pattern', () => {
+  expect(() => new Template('#{')).toThrow()
+})
+
+test('unknown variable', () => {
+  const template = new Template('#{ unknownVarname }')
+  expect(template.fill({})).toThrow()
+})
+
+test('unknown variable with default', () => {
+  const template = new Template('#{ unknownVarname | default "hello" }')
+  expect(template.fill({})).toEqual('hello')
+})
+
 test('template with no modifiers', () => {
   const template = new Template('this is a template')
   expect(template.fill({})).toBe('this is a template')

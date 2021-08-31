@@ -15,7 +15,7 @@ export function dir(path: string): string {
   return normalizePath(index > 0 ? path.slice(0, index) : path)
 }
 
-export function join(pathElements: string[]) {
+export function join(...pathElements: string[]) {
   const backslashIndex = pathElements.join('').search(/\\(?! )/)
   const slashIndex = pathElements.join('').search(/\//)
   let separator: string = ''
@@ -40,7 +40,7 @@ export function convertPath(path: string, sourceBase: string, targetBase: string
   return path.replace(normalizePath(sourceBase), normalizePath(targetBase))
 }
 
-export function volume(path: string, inRecursion: boolean = false): string {
+export function mount(path: string, inRecursion: boolean = false): string {
   const normalizedPath = normalizePath(path)
   let _volume: string = normalizedPath
 
@@ -65,9 +65,9 @@ export function volume(path: string, inRecursion: boolean = false): string {
     choose(normalizedPath, /^\/Volumes\/?/i, '/Volumes/')
   } else if (/^\//.test(normalizedPath)) {
     // Root path
-    choose(normalizedPath, /^\/+/, '/')
+    choose('/', /^\0/, '')
   } else if (!inRecursion) {
-    _volume = volume(resolve(path))
+    _volume = mount(resolve(path))
   }
   return _volume
 }

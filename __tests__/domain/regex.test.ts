@@ -1,4 +1,4 @@
-const { Pattern } = require('../../src/pattern')
+const { Pattern } = require('../../src')
 
 test('parsing a number', () => {
   const pattern = new Pattern('#{ regex /[0-9]+/ : regex }')

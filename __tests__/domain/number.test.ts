@@ -23,6 +23,15 @@ test('parsing a number + 1', () => {
   expect(rule.match('I have 5 dogs')).toEqual({ dogs: 6 })
   expect(rule.match('I have 12 dogs')).toEqual({ dogs: 13 })
 })
+
+test('parsing a number + 1 (without amount specified)', () => {
+  const rule = new Rule('I have #{ number : dogs | inc } dogs', '')
+
+  expect(rule.match('I have 0 dogs')).toEqual({ dogs: 1 })
+  expect(rule.match('I have 5 dogs')).toEqual({ dogs: 6 })
+  expect(rule.match('I have 12 dogs')).toEqual({ dogs: 13 })
+})
+
 test('parsing a number + 69', () => {
   const rule = new Rule('I have #{ number : dogs | inc 69 } dogs', '')
 
@@ -33,6 +42,14 @@ test('parsing a number + 69', () => {
 
 test('parsing a number - 1', () => {
   const rule = new Rule('I have #{ number : dogs | dec 1 } dogs', '')
+
+  expect(rule.match('I have 0 dogs')).toEqual({ dogs: -1 })
+  expect(rule.match('I have 5 dogs')).toEqual({ dogs: 4 })
+  expect(rule.match('I have 12 dogs')).toEqual({ dogs: 11 })
+})
+
+test('parsing a number - 1 (without amount specified)', () => {
+  const rule = new Rule('I have #{ number : dogs | dec } dogs', '')
 
   expect(rule.match('I have 0 dogs')).toEqual({ dogs: -1 })
   expect(rule.match('I have 5 dogs')).toEqual({ dogs: 4 })

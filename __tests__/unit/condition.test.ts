@@ -1,5 +1,16 @@
 const { Condition } = require('../../src/condition')
 
+test('incorrect pattern', () => {
+  expect(() => new Condition('#{')).toThrow()
+})
+
+test('empty', () => {
+  const condition = new Condition('')
+  expect(condition.check({})).toBeTruthy()
+  expect(condition.check({ variable: true })).toBeTruthy()
+  expect(condition.check({ variable: false })).toBeTruthy()
+})
+
 test('no modifier 1', () => {
   const condition = new Condition('1')
   expect(condition.check({})).toBeTruthy()

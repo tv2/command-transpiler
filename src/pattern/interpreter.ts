@@ -2,9 +2,8 @@ import { IInterpret, IModifiableLeaf, IModifiableLeafs } from './types'
 import { interpretModifier } from '../common/interpreter'
 
 function interpretModifiable({ base, varname, modifiers }: IModifiableLeaf): IInterpret {
-  if (varname === undefined) return (store) => store
-  const baseModifier = interpretModifier(base, varname)
-  const toolModifiers = modifiers.map((modifier) => interpretModifier(modifier, varname))
+  const baseModifier = interpretModifier(base, varname!)
+  const toolModifiers = modifiers.map((modifier) => interpretModifier(modifier, varname!))
   return (store) => toolModifiers.reduce((store, modifier) => modifier(store), baseModifier(store))
 }
 

@@ -29,7 +29,11 @@ function parseOptionalVarname(): IParser<string | null> {
 
 function parseModifiableLeaf(): IParser<ILeaf> {
   return map(
-    sequence<any>(pipe(string('#{'), ws, parseBaseModifier()), pipe(ws, parseOptionalVarname()), lpipe(parseModifiers(), string('}'))),
+    sequence<any>(
+      pipe(string('#{'), ws, parseBaseModifier()),
+      pipe(ws, parseOptionalVarname()),
+      lpipe(parseModifiers(), string('}'))
+    ),
     ([base, varname, modifiers]: any) => ({ type: LeafKind.Modifiable, base, varname, modifiers })
   )
 }
@@ -52,7 +56,7 @@ function compilePatternStaticLeaf(leaf: IStaticLeaf): string {
 }
 
 function compilePatternModifiableLeaf(leaf: IModifiableLeaf): string {
-  return 'varname' in leaf ? `(?<${leaf.varname}>${leaf.base.pattern})` : ''
+  return 'varname' in leaf && leaf.varname !== null ? `(?<${leaf.varname}>${leaf.base.pattern})` : `(${leaf.base.pattern})`
 }
 
 function compilePatternLeaf(leaf: ILeaf): string {
@@ -67,6 +71,6 @@ function compilePatternLeaf(leaf: ILeaf): string {
 export function compilePattern(ast: IAST, flags: string = ''): { pattern: RegExp; processors: IModifiableLeafs } {
   return {
     pattern: new RegExp(`^${ast.map((leaf) => compilePatternLeaf(leaf)).join('')}$`, flags),
-    processors: ast.filter((leaf) => leaf.type === LeafKind.Modifiable) as IModifiableLeafs,
+    processors: ast.filter((leaf) => leaf.type === LeafKind.Modifiable && leaf.varname) as IModifiableLeafs,
   }
 }

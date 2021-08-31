@@ -56,7 +56,6 @@ function interpretExpr(expr: any): IInterpret {
     case 'leaf':
       return interpretLeaf(expr)
     default:
-      console.log(expr)
       throw Error('Unknown expr type ' + expr.type)
   }
 }

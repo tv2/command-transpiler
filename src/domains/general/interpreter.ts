@@ -12,6 +12,10 @@ export function interpretEqual({ varname, args }: IInterpreterContext): IInterpr
   return (store) => ({ ...store, [varname]: store[varname] === args!.value })
 }
 
+export function interpretDefault({ varname, args }: IInterpreterContext): IInterpret {
+  return (store) => ({ ...store, [varname]: store[varname] === undefined ? args!.value : store[varname] })
+}
+
 export function interpretNot({ varname }: IInterpreterContext): IInterpret {
   return (store) => ({ ...store, [varname]: !store[varname] })
 }
@@ -22,6 +26,7 @@ export default function interpretModifier({ modifier: type, args }: IModifier, v
   switch (type) {
     case 'length': return interpretLength(context)
     case 'toString': return interpretToString(context)
+    case 'default': return interpretDefault(context)
     case 'equal': return interpretEqual(context)
     case 'not': return interpretNot(context)
     default:

@@ -35,4 +35,3 @@ export class Rule {
     return this.fill(store)
   }
 }
-

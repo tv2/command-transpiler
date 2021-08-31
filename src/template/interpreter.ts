@@ -4,7 +4,7 @@ import { interpretModifier } from '../common/interpreter'
 function interpretModifiableLeaf(leaf: IModifiableLeaf): (store: IStore) => string {
   const modifiers = leaf.modifiers.map(modifier => interpretModifier(modifier, leaf.varname))
   return store => {
-    const hasVarname = leaf.varname in store
+    const hasVarname = leaf.varname in store && store[leaf.varname] !== undefined
     const value = modifiers.reduce((store,modifier) => modifier(store), store)[leaf.varname]
     if (!hasVarname && (value === undefined || value === NaN || value.toString().includes('undefined'))) {
       throw Error(`Variable ${leaf.varname} is undefined.`)
