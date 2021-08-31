@@ -6,7 +6,7 @@ test('incorrect pattern', () => {
 
 test('unknown variable', () => {
   const template = new Template('#{ unknownVarname }')
-  expect(template.fill({})).toThrow()
+  expect(() => template.fill({})).toThrow()
 })
 
 test('unknown variable with default', () => {
