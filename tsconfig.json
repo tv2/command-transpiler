@@ -3,7 +3,7 @@
     "module": "commonjs",
     "target": "es2020",
     "lib": ["es2020"],
-    "outDir": "lib",
+    "outDir": "dist",
     "declaration": true,
 
     "strict": true,
@@ -21,6 +21,6 @@
   "exclude": [
     "__tests__/**/*.ts",
     "node_modules",
-    "lib"
+    "dist"
   ]
 }

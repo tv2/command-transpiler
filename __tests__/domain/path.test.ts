@@ -1,12 +1,8 @@
-const { PathModifierDomain } = require('../../src/modifier/domains')
-const { Rule } = require('../../src')
+const { Rule } = require('../../src/rule')
 const { runPlatform } = require('../platform.spec')
-
-const domain = new PathModifierDomain()
 
 test('parsing a path', () => {
   const rule = new Rule('The document is saved at #{ path: documentPath }', '')
-  rule.injectWith(domain)
 
   runPlatform('linux', () => expect(rule.match('The document is saved at /Users/peterpan/Desktop/document.docx')).toEqual({ documentPath: '/Users/peterpan/Desktop/document.docx' }))
   runPlatform('darwin', () => expect(rule.match('The document is saved at /Users/peterpan/Desktop/document.docx')).toEqual({ documentPath: '/Users/peterpan/Desktop/document.docx' }))
@@ -15,7 +11,6 @@ test('parsing a path', () => {
 
 test('getting basename of a path', () => {
   const rule = new Rule('', '#{ documentPath | basename }')
-  rule.injectWith(domain)
 
   runPlatform('linux', () => expect(rule.fill({ documentPath: '/Users/peterpan/Desktop/document.docx' })).toBe('document.docx'))
   runPlatform('darwin', () => expect(rule.fill({ documentPath: '/Users/peterpan/Desktop/document.docx' })).toBe('document.docx'))
@@ -24,7 +19,6 @@ test('getting basename of a path', () => {
 
 test('getting dir of a path', () => {
   const rule = new Rule('', '#{ documentPath | dir }')
-  rule.injectWith(domain)
 
   runPlatform('linux', () => expect(rule.fill({ documentPath: '/Users/peterpan/Desktop/document.docx' })).toBe('/Users/peterpan/Desktop'))
   runPlatform('darwin', () => expect(rule.fill({ documentPath: '/Users/peterpan/Desktop/document.docx' })).toBe('/Users/peterpan/Desktop'))

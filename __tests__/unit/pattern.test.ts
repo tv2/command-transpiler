@@ -1,4 +1,31 @@
-const Pattern = require('../../src').Pattern
+const { Pattern } = require('../../src')
+
+test('incorrect pattern sensitive', () => {
+  expect(() => new Pattern('#{', true)).toThrow()
+})
+
+test('incorrect pattern insensitive', () => {
+  expect(() => new Pattern('#{', false)).toThrow()
+})
+
+test('empty pattern case sensitive', () => {
+  const pattern = new Pattern('', true)
+  expect(pattern.match('')).toEqual({})
+  expect(pattern.match('h')).toEqual(null)
+})
+
+test('empty pattern case insensitive', () => {
+  const pattern = new Pattern('', false)
+  expect(pattern.match('')).toEqual({})
+  expect(pattern.match('h')).toEqual(null)
+})
+
+test('no varname pattern', () => {
+  const pattern = new Pattern('#{ number }')
+  expect(pattern.match('5')).toEqual({})
+  expect(pattern.match('69')).toEqual({})
+  expect(pattern.match('A4')).toEqual(null)
+})
 
 test('no modifier patterns', () => {
   const pattern = new Pattern('this is a pattern')

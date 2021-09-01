@@ -1,5 +1,0 @@
-export * from './general'
-export * from './number'
-export * from './path'
-export * from './word'
-export * from './regex'
