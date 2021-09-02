@@ -6,11 +6,11 @@ The transpiler is a set of rules, which consists of a pattern and a template. A 
 
 ## Examples
 
-Pattern: `ADD #{ number : amount }`
-Template: `PLUS #{ amount }`
-Example: `ADD 5` => `PLUS 5`
+Pattern: `ADD #{ number : amount }`  
+Template: `PLUS #{ amount }`  
+Example: `ADD 5` => `PLUS 5`  
 
-Pattern: `ADDINC #{ number : amount | toInteger | inc 1 }`
-Template: `PLUS #{ amount }`
-Example: `ADDINC 5` => `PLUS 6`
+Pattern: `ADDINC #{ number : amount | toInteger | inc 1 }`  
+Template: `PLUS #{ amount }`  
+Example: `ADDINC 5` => `PLUS 6`  
 
