@@ -1,3 +1,4 @@
+export {}
 const { interpretModifier } = require('../../src/common/interpreter')
 
 test('Unknown domain', () => {

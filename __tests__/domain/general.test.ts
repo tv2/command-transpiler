@@ -1,3 +1,4 @@
+export {}
 const { Condition } = require('../../src/condition')
 
 test('length', () => {

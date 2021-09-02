@@ -1,3 +1,4 @@
+export {}
 const { Transpiler } = require('../../src')
 const { Rule } = require('../../src')
 

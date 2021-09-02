@@ -1,5 +1,5 @@
+export {}
 const filesystem = require('../../src/utilities/filesystem')
-const { runPlatform } = require('../platform.spec')
 
 test('basename', () => {
   expect(filesystem.basename('/Users/admin/Desktop')).toEqual('Desktop')

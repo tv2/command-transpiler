@@ -1,3 +1,4 @@
+export {}
 const { Pattern } = require('../../src')
 
 test('parsing a word', () => {

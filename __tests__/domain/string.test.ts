@@ -1,3 +1,4 @@
+export {}
 const { Pattern } = require('../../src/pattern')
 
 test('parsing a "word" case sensitive', () => {

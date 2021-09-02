@@ -1,3 +1,4 @@
+export {}
 const { Rule } = require('../../src/rule')
 
 test('parsing a number', () => {

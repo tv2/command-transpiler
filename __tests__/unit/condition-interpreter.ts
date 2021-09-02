@@ -1,3 +1,4 @@
+export {}
 const { interpret } = require('../../src/condition/interpreter')
 
 test('Unknown operator', () => {

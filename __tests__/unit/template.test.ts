@@ -1,3 +1,4 @@
+export {}
 const Template = require('../../src/template').Template
 
 test('incorrect pattern', () => {

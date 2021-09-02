@@ -1,3 +1,4 @@
+export {}
 const { Rule } = require('../../src/rule')
 const { runPlatform } = require('../platform.spec')
 
