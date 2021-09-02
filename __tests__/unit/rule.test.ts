@@ -1,3 +1,4 @@
+export {}
 const { Rule, Template, Pattern, Condition } = require('../../src')
 
 test('constructor', () => {
