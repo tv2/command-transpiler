@@ -17,7 +17,7 @@ import { IResult, IParser } from '../utilities/parser-combinator'
 import { parseBaseModifier, parseModifiers, parseVarname } from '../common/parser'
 
 function parseStaticLeaf(): IParser<ILeaf> {
-  return map<string, IStaticLeaf>(regex(/((?!#{).)+/, 'plain text'), (text) => ({
+  return map<string, IStaticLeaf>(regex(/((?!#{)(.|[\r\n]))+/, 'plain text'), (text) => ({
     type: LeafKind.Static,
     text,
   }))

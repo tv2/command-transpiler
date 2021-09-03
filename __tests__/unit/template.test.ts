@@ -45,3 +45,12 @@ test('template with multiple (same) base modifiers (name length)', () => {
   expect(template.fill({ name: '' })).toBe('0 is equal to 0')
   expect(() => template.fill({})).toThrow()
 })
+
+test('multiline template', () => {
+  expect(() =>new Template('CG 1-120 ADD 1 "sport-overlay/index" 0\nMIXER 1-120 OPACITY 1')).not.toThrow()
+  const template = new Template('CG 1-120 ADD 1 "sport-overlay/index" 0\nMIXER 1-120 OPACITY 1')
+  expect(template.fill({ name: 'Anders Frederik Jørgensen' })).toBe('CG 1-120 ADD 1 "sport-overlay/index" 0\nMIXER 1-120 OPACITY 1')
+  expect(template.fill({ name: 'Lassi' })).toBe('CG 1-120 ADD 1 "sport-overlay/index" 0\nMIXER 1-120 OPACITY 1')
+  expect(template.fill({ name: '' })).toBe('CG 1-120 ADD 1 "sport-overlay/index" 0\nMIXER 1-120 OPACITY 1')
+  expect(template.fill({})).toBe('CG 1-120 ADD 1 "sport-overlay/index" 0\nMIXER 1-120 OPACITY 1')
+})
