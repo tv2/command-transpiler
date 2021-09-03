@@ -109,7 +109,6 @@ jobs:
     if: needs.bump-version.outputs.bumped == 'true'
     needs:
       - bump-version
-      - build
     steps:
       - name: Access repository
         uses: actions/checkout@v2
@@ -136,7 +135,7 @@ jobs:
         uses: actions/checkout@v2
       - uses: ./.github/actions/cache
       - name: Install dependencies
-        run: yarn install --production --frozen-lockfile
+        run: yarn install --frozen-lockfile
       - name: Build
         run: yarn build
       - name: Upload build artifact
