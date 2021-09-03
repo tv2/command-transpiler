@@ -1,6 +1,6 @@
 {
   "name": "@tv2media/command-transpiler",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "Transpiles commands from one protocol to another.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
