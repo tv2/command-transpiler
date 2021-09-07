@@ -24,3 +24,7 @@ export function parseEqual(): IParser<IModifier> {
 export function parseNot(): IParser<IModifier> {
   return map(string('not'), () => ({ domain, modifier: 'not' }))
 }
+
+export function parseExists(): IParser<IModifier> {
+  return map(string('exists'), () => ({ domain, modifier: 'exists' }))
+}
