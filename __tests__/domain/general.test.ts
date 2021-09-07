@@ -1,5 +1,5 @@
 export {}
-const { Condition } = require('../../src/condition')
+const { Condition, Template } = require('../../src')
 
 test('length', () => {
   const condition = new Condition('text | length')
@@ -56,6 +56,35 @@ test('not not', () => {
   expect(condition.check({ text: '' })).toBeFalsy()
   expect(condition.check({ text: 0 })).toBeFalsy()
   expect(condition.check({ text: null })).toBeFalsy()
+  expect(condition.check({ text: 'hello' })).toBeTruthy()
+  expect(condition.check({ text: 'shello' })).toBeTruthy()
+  expect(condition.check({ text: 'hellos' })).toBeTruthy()
+  expect(condition.check({ text: 'shellos' })).toBeTruthy()
+  expect(condition.check({ text: 5 })).toBeTruthy()
+})
+
+test('default 5', () => {
+  const condition = new Template('#{ text | default 5 }')
+  expect(condition.fill({})).toEqual('5')
+  expect(condition.fill({ text: 2 })).toEqual('2')
+  expect(condition.fill({ text: 5 })).toEqual('5')
+  expect(condition.fill({ text: 'hello' })).toEqual('hello')
+})
+
+test('default "hello world"', () => {
+  const template = new Template('#{ text | default "hello world" }')
+  expect(template.fill({})).toEqual('hello world')
+  expect(template.fill({ text: 2 })).toEqual('2')
+  expect(template.fill({ text: 5 })).toEqual('5')
+  expect(template.fill({ text: 'hello' })).toEqual('hello')
+})
+
+test('exists', () => {
+  const condition = new Condition('text | exists')
+  expect(condition.check({})).toBeFalsy()
+  expect(condition.check({ text: '' })).toBeTruthy()
+  expect(condition.check({ text: 0 })).toBeTruthy()
+  expect(condition.check({ text: null })).toBeTruthy()
   expect(condition.check({ text: 'hello' })).toBeTruthy()
   expect(condition.check({ text: 'shello' })).toBeTruthy()
   expect(condition.check({ text: 'hellos' })).toBeTruthy()
