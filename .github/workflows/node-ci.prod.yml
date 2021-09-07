@@ -133,6 +133,8 @@ jobs:
     steps:
       - name: Access repository
         uses: actions/checkout@v2
+      - name: Ensure commits from bump-version
+        run: git pull
       - uses: ./.github/actions/cache
       - name: Install dependencies
         run: yarn install --frozen-lockfile
@@ -141,7 +143,7 @@ jobs:
       - name: Upload build artifact
         uses: actions/upload-artifact@v2
         with:
-          name: package-artifact
+          name: ${{ github.event.repository.name }}
           path: dist
 
   check-github-release:
@@ -170,13 +172,13 @@ jobs:
       - name: Download artifact
         uses: actions/download-artifact@v2
         with:
-          name: package-artifact
+          name: ${{ github.event.repository.name }}
           path: dist
       - name: Compress artifact to zip
         uses: papeloto/action-zip@v1
         with:
           files: dist
-          dest: "${{ github.event.repository.name }}.zip"
+          dest: "${{ github.event.repository.name }}-${{ needs.bump-version.outputs.version }}.zip"
       - name: Create a GitHub release
         id: release
         uses: actions/create-release@v1
@@ -192,8 +194,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.release.outputs.upload_url }}
-          asset_path: "${{ github.event.repository.name }}.zip"
-          asset_name: "${{ github.event.repository.name }}.zip"
+          asset_path: "${{ github.event.repository.name }}-${{ needs.bump-version.outputs.version }}.zip"
+          asset_name: "${{ github.event.repository.name }}-${{ needs.bump-version.outputs.version }}.zip"
           asset_content_type: application/zip
 
   check-npm-token:
@@ -226,7 +228,7 @@ jobs:
       - name: Download artifact
         uses: actions/download-artifact@v2
         with:
-          name: package-artifact
+          name: ${{ github.event.repository.name }}
           path: dist
       - uses: actions/setup-node@v2
         with:
@@ -265,6 +267,12 @@ jobs:
     steps:
       - name: Access repository
         uses: actions/checkout@v2
+
+      - uses: actions/download-artifact@v2
+        with:
+          name: ${{ github.event.repository.name }}
+          path: dist
+
       - name: Docker meta
         id: meta
         uses: docker/metadata-action@v3
@@ -275,11 +283,13 @@ jobs:
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
             type=semver,pattern={{major}}.{{minor}}.{{patch}}
+
       - name: Log in to Docker Hub
         uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
+
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
