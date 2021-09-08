@@ -1,5 +1,6 @@
 export * from './transpiler'
 export * from './rule'
+export * from './rules'
 export * from './pattern'
 export * from './template'
 export * from './condition'
