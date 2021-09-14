@@ -15,17 +15,26 @@ test('unknown variable with default', () => {
   expect(template.fill({})).toEqual('hello')
 })
 
-test('template with no modifiers', () => {
+test('template with no modifables', () => {
   const template = new Template('this is a template')
   expect(template.fill({})).toBe('this is a template')
 })
 
-test('template with base modifier', () => {
+test('template with modifable', () => {
   const template = new Template('Hello #{ name }')
   expect(() => template.fill({})).toThrow()
   expect(() => template.fill({ mane: 'nebrot' })).toThrow()
   expect(template.fill({ name: 'Torben' })).toBe('Hello Torben')
   expect(template.fill({ name: 'AFJO' })).toBe('Hello AFJO')
+})
+
+test('template with single letter modifable', () => {
+  const template = new Template('Hello #{ n }')
+  expect(() => template.fill({})).toThrow()
+  expect(() => template.fill({ m: 'nebrot' })).toThrow()
+  expect(() => template.fill({ mane: 'nebrot' })).toThrow()
+  expect(template.fill({ n: 'Torben' })).toBe('Hello Torben')
+  expect(template.fill({ n: 'AFJO' })).toBe('Hello AFJO')
 })
 
 test('template with tool modifiers (name length)', () => {

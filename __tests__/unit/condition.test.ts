@@ -35,6 +35,15 @@ test('no modifier variable', () => {
   expect(condition.check({ result: 0 })).toBeFalsy()
 })
 
+test('no modifier single letter variable', () => {
+  const condition = new Condition('a')
+  expect(condition.check({})).toBeFalsy()
+  expect(condition.check({ a: true })).toBeTruthy()
+  expect(condition.check({ a: 1 })).toBeTruthy()
+  expect(condition.check({ a: false })).toBeFalsy()
+  expect(condition.check({ a: 0 })).toBeFalsy()
+})
+
 test('and operator', () => {
   const condition = new Condition('var1 and var2')
   expect(condition.check({})).toBeFalsy()

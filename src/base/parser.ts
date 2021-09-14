@@ -2,7 +2,7 @@ import { IParser } from '../utilities/parser-combinator'
 import { pipe, map, sequence, regex, string, ws, lpipe, any } from '../utilities/parser-combinator/combinators'
 
 export function parseVarname(): IParser<string> {
-  return lpipe(regex(/[a-zæøå_][a-zæøå0-9_]+/i), ws)
+  return lpipe(regex(/[a-zæøå_][a-zæøå0-9_]*/i), ws)
 }
 
 export function parseStringLiteral(): IParser<string> {
