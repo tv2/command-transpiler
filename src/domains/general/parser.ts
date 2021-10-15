@@ -1,7 +1,7 @@
-import { pipe, map, string, ws1 } from '../../utilities/parser-combinator/combinators'
+import { pipe, map, string, ws1, many1, any } from '../../utilities/parser-combinator/combinators'
 import { IParser } from '../../utilities/parser-combinator'
 import { IModifier } from '../../common/types'
-import { parseLiteral } from '../../base/parser'
+import { parseLiteral, parseVarname } from '../../base/parser'
 
 const domain = 'general'
 
@@ -14,10 +14,14 @@ export function parseToString(): IParser<IModifier> {
 }
 
 export function parseDefault(): IParser<IModifier> {
-  return map(pipe(string('default'), ws1, parseLiteral()), (value) => ({ domain, modifier: 'default', args: { value } }))
+  return map(pipe(string('default'), ws1, parseLiteral()), (value) => ({
+    domain,
+    modifier: 'default',
+    args: { value },
+  }))
 }
 
-export function parseEqual(): IParser<IModifier> {
+export function parsequal(): IParser<IModifier> {
   return map(pipe(string('equal'), ws1, parseLiteral()), (value) => ({ domain, modifier: 'equal', args: { value } }))
 }
 
@@ -27,4 +31,12 @@ export function parseNot(): IParser<IModifier> {
 
 export function parseExists(): IParser<IModifier> {
   return map(string('exists'), () => ({ domain, modifier: 'exists' }))
+}
+
+export function parseIn(): IParser<IModifier> {
+  return map(pipe(string('in'), any<string|any[]>(pipe(ws1, parseVarname()), many1(pipe(ws1, parseLiteral())))), (value) => ({
+    domain,
+    modifier: 'in',
+    args: { value },
+  }))
 }
