@@ -21,7 +21,7 @@ export function interpretNot({ varname }: IInterpreterContext): IInterpret {
   return (store) => ({ ...store, [varname]: !store[varname] })
 }
 
-export function interpretExists({ varname }: IInterpreterContext): IInterpret {
+export function interpretExist({ varname }: IInterpreterContext): IInterpret {
   return (store) => ({ ...store, [varname]: varname in store && store[varname] !== undefined })
 }
 export function interpretIn({ varname, args }: IInterpreterContext): IInterpret {
@@ -53,7 +53,7 @@ export default function interpretModifier({ modifier: type, args }: IModifier, v
     case 'default': return interpretDefault(context)
     case 'equal': return interpretEqual(context)
     case 'not': return interpretNot(context)
-    case 'exists': return interpretExists(context)
+    case 'exist': return interpretExist(context)
     case 'in': return interpretIn(context)
     default:
       throw Error(`Unknown General modifier: ${type}`)
