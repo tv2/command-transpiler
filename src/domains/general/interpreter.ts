@@ -24,6 +24,7 @@ export function interpretNot({ varname }: IInterpreterContext): IInterpret {
 export function interpretExist({ varname }: IInterpreterContext): IInterpret {
   return (store) => ({ ...store, [varname]: varname in store && store[varname] !== undefined })
 }
+// TODO: Redefine
 export function interpretIn({ varname, args }: IInterpreterContext): IInterpret {
   return (store) => {
     let value: any[] = args!.value

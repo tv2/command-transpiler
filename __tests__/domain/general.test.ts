@@ -79,8 +79,8 @@ test('default "hello world"', () => {
   expect(template.fill({ text: 'hello' })).toEqual('hello')
 })
 
-test('exists', () => {
-  const condition = new Condition('text | exists')
+test('exist', () => {
+  const condition = new Condition('text | exist')
   expect(condition.check({})).toBeFalsy()
   expect(condition.check({ text: '' })).toBeTruthy()
   expect(condition.check({ text: 0 })).toBeTruthy()
