@@ -40,6 +40,8 @@ test('basename', () => {
   expect(filesystem.basename('\\\\triton\\Users\\admin\\Desktop\\file.json')).toEqual('file.json')
   expect(filesystem.basename('\\\\triton\\Users\\admin\\Desktop\\file.mov')).toEqual('file.mov')
   expect(filesystem.basename('\\\\triton\\file.mov')).toEqual('file.mov')
+  expect(filesystem.basename('\\\\triton\\')).toEqual('')
+  expect(filesystem.basename('\\\\triton')).toEqual('')
 })
 
 test('dir', () => {
@@ -81,6 +83,8 @@ test('dir', () => {
   expect(filesystem.dir('\\\\triton\\Users\\admin\\Desktop\\file.json')).toEqual('\\\\triton\\Users\\admin\\Desktop')
   expect(filesystem.dir('\\\\triton\\Users\\admin\\Desktop\\file.mov')).toEqual('\\\\triton\\Users\\admin\\Desktop')
   expect(filesystem.dir('\\\\triton\\file.mov')).toEqual('\\\\triton')
+  expect(filesystem.dir('\\\\triton\\')).toEqual('\\\\triton')
+  expect(filesystem.dir('\\\\triton')).toEqual('\\\\triton')
 })
 
 test('join', () => {
