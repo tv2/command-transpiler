@@ -1,4 +1,5 @@
 import { IModifier, IInterpreterContext, IInterpret } from '../../common/types'
+import { evalLiteral } from '../../base/interpreter'
 
 export function interpretLength({ varname }: IInterpreterContext): IInterpret {
   return (store) => ({ ...store, [varname]: store[varname].length ? store[varname].length : 0 })
@@ -9,7 +10,7 @@ export function interpretToString({ varname }: IInterpreterContext): IInterpret 
 }
 
 export function interpretEqual({ varname, args }: IInterpreterContext): IInterpret {
-  return (store) => ({ ...store, [varname]: store[varname] === args!.value })
+  return (store) => ({ ...store, [varname]: store[varname] === evalLiteral(args!.value, store) })
 }
 
 export function interpretDefault({ varname, args }: IInterpreterContext): IInterpret {
