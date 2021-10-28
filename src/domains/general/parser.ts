@@ -1,7 +1,7 @@
 import { pipe, map, string, ws1, many1, any } from '../../utilities/parser-combinator/combinators'
 import { IParser } from '../../utilities/parser-combinator'
 import { IModifier } from '../../common/types'
-import { parseLiteral, parseExtendedLiteral, parseVarname } from '../../base/parser'
+import { parseLiteral, parseExtendedLiteral, parseVarnameLiteral } from '../../base/parser'
 
 const domain = 'general'
 
@@ -34,7 +34,7 @@ export function parseExist(): IParser<IModifier> {
 }
 
 export function parseIn(): IParser<IModifier> {
-  return map(pipe(string('in'), any<string|any[]>(pipe(ws1, parseVarname()), many1(pipe(ws1, parseLiteral())))), (value) => ({
+  return map(pipe(string('in'), any<object|any[]>(pipe(ws1, parseVarnameLiteral()), many1(pipe(ws1, parseLiteral())))), (value) => ({
     domain,
     modifier: 'in',
     args: { value },

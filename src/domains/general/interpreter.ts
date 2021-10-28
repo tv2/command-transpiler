@@ -29,16 +29,16 @@ export function interpretIn({ varname, args }: IInterpreterContext): IInterpret 
   return (store) => {
     let value: any[] = args!.value
     // Variable name
-    if (typeof args!.value === 'string') {
-      if (args!.value in store) {
-        const varValue = store[args!.value]
+    if (typeof args!.value === 'object' && args!.value.type === 'variable') {
+      if (args!.value.varname in store) {
+        const varValue = store[args!.value.varname]
         if (typeof varValue === 'string') {
           value = varValue.split(',')
         } else {
           value = Array.isArray(varValue) ? varValue : [varValue]
         }
       } else {
-        throw Error(`Variable ${args!.value} is undefined.`)
+        throw Error(`Variable ${args!.value.varname} is undefined.`)
       }
     }
     return { ...store, [varname]: value.includes(store[varname]) }
