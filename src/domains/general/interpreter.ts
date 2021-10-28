@@ -13,6 +13,14 @@ export function interpretEqual({ varname, args }: IInterpreterContext): IInterpr
   return (store) => ({ ...store, [varname]: store[varname] === evalLiteral(args!.value, store) })
 }
 
+export function interpretGreater({ varname, args }: IInterpreterContext): IInterpret {
+  return (store) => ({ ...store, [varname]: store[varname] > evalLiteral(args!.value, store) })
+}
+
+export function interpretLess({ varname, args }: IInterpreterContext): IInterpret {
+  return (store) => ({ ...store, [varname]: store[varname] < evalLiteral(args!.value, store) })
+}
+
 export function interpretDefault({ varname, args }: IInterpreterContext): IInterpret {
   return (store) => ({ ...store, [varname]: store[varname] === undefined ? args!.value : store[varname] })
 }
@@ -53,6 +61,8 @@ export default function interpretModifier({ modifier: type, args }: IModifier, v
     case 'toString': return interpretToString(context)
     case 'default': return interpretDefault(context)
     case 'equal': return interpretEqual(context)
+    case 'greater': return interpretGreater(context)
+    case 'less': return interpretLess(context)
     case 'not': return interpretNot(context)
     case 'exist': return interpretExist(context)
     case 'in': return interpretIn(context)

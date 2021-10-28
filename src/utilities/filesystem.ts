@@ -6,7 +6,7 @@ export function basename(path: string): string {
 }
 
 function indexOfBasename(path: string): number {
-  const pathMount = /^\\\\+/.test(path) ? mount(path) : ''
+  const pathMount = /^(\\\\+|[A-ZÆØÅ]+:)/.test(path) ? mount(path) : ''
   const pathOffset = pathMount.length
   const index: number = path.replace(pathMount, '').search(/((?!(\/|\\(?! ))).)+(\/|\\)?$/)
   return (index >= 0 ? index : 0) + pathOffset

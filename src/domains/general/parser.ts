@@ -1,7 +1,7 @@
 import { pipe, map, string, ws1, many1, any } from '../../utilities/parser-combinator/combinators'
 import { IParser } from '../../utilities/parser-combinator'
 import { IModifier } from '../../common/types'
-import { parseLiteral, parseExtendedLiteral, parseVarnameLiteral } from '../../base/parser'
+import { parseLiteral, parseExtendedLiteral, parseVarnameLiteral, parseNumberLiteral } from '../../base/parser'
 
 const domain = 'general'
 
@@ -23,6 +23,14 @@ export function parseDefault(): IParser<IModifier> {
 
 export function parseEqual(): IParser<IModifier> {
   return map(pipe(string('equal'), ws1, parseExtendedLiteral()), (value) => ({ domain, modifier: 'equal', args: { value } }))
+}
+
+export function parseGreater(): IParser<IModifier> {
+  return map(pipe(string('greater'), ws1, any<any>(parseNumberLiteral(), parseVarnameLiteral())), (value) => ({ domain, modifier: 'greater', args: { value } }))
+}
+
+export function parseLess(): IParser<IModifier> {
+  return map(pipe(string('less'), ws1, any<any>(parseNumberLiteral(), parseVarnameLiteral())), (value) => ({ domain, modifier: 'less', args: { value } }))
 }
 
 export function parseNot(): IParser<IModifier> {
