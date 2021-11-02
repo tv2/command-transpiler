@@ -4,6 +4,10 @@ function interpretBaseModifier({ varname }: IInterpreterContext): IInterpret {
   return (store) => ({ ...store, [varname]: parseInt(store[varname], 10) })
 }
 
+function interpretToInteger({ varname }: IInterpreterContext): IInterpret {
+  return (store) => ({ ...store, [varname]: parseInt(store[varname], 10) })
+}
+
 function interpretInc({ varname, args }: IInterpreterContext): IInterpret {
   return (store) => ({ ...store, [varname]: store[varname] + args!.amount })
 }
@@ -34,6 +38,8 @@ export default function interpretModifier({ modifier: type, args }: IModifier, v
       return interpretMod(context)
     case 'abs':
       return interpretAbs(context)
+    case 'toInteger':
+      return interpretToInteger(context)
     default:
       throw Error('Unknown Number modifier: ' + type)
   }
