@@ -28,6 +28,20 @@ test('no varname pattern', () => {
   expect(pattern.match('A4')).toEqual(null)
 })
 
+test('varname pattern', () => {
+  const pattern = new Pattern('#{ number : number }')
+  expect(pattern.match('5')).toEqual({ number: 5 })
+  expect(pattern.match('69')).toEqual({ number: 69 })
+  expect(pattern.match('A4')).toEqual(null)
+})
+
+test('single letter varname pattern', () => {
+  const pattern = new Pattern('#{ number : n }')
+  expect(pattern.match('5')).toEqual({ n: 5 })
+  expect(pattern.match('69')).toEqual({ n: 69 })
+  expect(pattern.match('A4')).toEqual(null)
+})
+
 test('no modifier patterns', () => {
   const pattern = new Pattern('this is a pattern')
   expect(pattern.match('this is a pattern')).toEqual({})
