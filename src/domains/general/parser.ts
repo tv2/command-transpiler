@@ -1,7 +1,7 @@
 import { pipe, map, string, ws1, many1, any, optional } from '../../utilities/parser-combinator/combinators'
 import { IParser } from '../../utilities/parser-combinator'
 import { IModifier } from '../../common/types'
-import { parseLiteral, parseVarname } from '../../base/parser'
+import { parseLiteral, parseExtendedLiteral, parseVarnameLiteral, parseNumberLiteral } from '../../base/parser'
 
 const domain = 'general'
 
@@ -22,19 +22,27 @@ export function parseDefault(): IParser<IModifier> {
 }
 
 export function parseEqual(): IParser<IModifier> {
-  return map(pipe(string('equal'), ws1, parseLiteral()), (value) => ({ domain, modifier: 'equal', args: { value } }))
+  return map(pipe(string('equal'), ws1, parseExtendedLiteral()), (value) => ({ domain, modifier: 'equal', args: { value } }))
+}
+
+export function parseGreater(): IParser<IModifier> {
+  return map(pipe(string('greater'), ws1, any<any>(parseNumberLiteral(), parseVarnameLiteral())), (value) => ({ domain, modifier: 'greater', args: { value } }))
+}
+
+export function parseLess(): IParser<IModifier> {
+  return map(pipe(string('less'), ws1, any<any>(parseNumberLiteral(), parseVarnameLiteral())), (value) => ({ domain, modifier: 'less', args: { value } }))
 }
 
 export function parseNot(): IParser<IModifier> {
-  return map(string('not'), () => ({ domain, modifier: 'not' }))
+  return map(string('not'), (modifier: string) => ({ domain, modifier }))
 }
 
-export function parseExists(): IParser<IModifier> {
-  return map(string('exists'), () => ({ domain, modifier: 'exists' }))
+export function parseExist(): IParser<IModifier> {
+  return map(string('exist'), (modifier: string) => ({ domain, modifier }))
 }
 
 export function parseIn(): IParser<IModifier> {
-  return map(pipe(string('in'), any<string|any[]>(pipe(ws1, parseVarname()), many1(pipe(ws1, parseLiteral())))), (value) => ({
+  return map(pipe(string('in'), any<object|any[]>(pipe(ws1, parseVarnameLiteral()), many1(pipe(ws1, parseLiteral())))), (value) => ({
     domain,
     modifier: 'in',
     args: { value },

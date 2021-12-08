@@ -6,8 +6,10 @@ export function basename(path: string): string {
 }
 
 function indexOfBasename(path: string): number {
-  let index: number = path.search(/((?!(\/|\\(?! ))).)+(\/|\\)?$/)
-  return index >= 0 ? index : 0
+  const pathMount = /^(\\\\+|[A-ZÆØÅ]+:)/.test(path) ? mount(path) : ''
+  const pathOffset = pathMount.length
+  const index: number = path.replace(pathMount, '').search(/((?!(\/|\\(?! ))).)+(\/|\\)?$/)
+  return (index >= 0 ? index : 0) + pathOffset
 }
 
 export function dir(path: string): string {

@@ -13,8 +13,16 @@ export function parseNumberLiteral(): IParser<number> {
   return map(regex(/[0-9]+/), (text) => parseInt(text, 10))
 }
 
+export function parseVarnameLiteral(): IParser<{ type: 'variable', varname: string }> {
+  return map(parseVarname(), (varname: string) => ({ type: 'variable', varname }))
+}
+
 export function parseLiteral(): IParser<any> {
   return any<any>(parseStringLiteral(), parseNumberLiteral())
+}
+
+export function parseExtendedLiteral(): IParser<any> {
+  return any<any>(parseStringLiteral(), parseNumberLiteral(), parseVarnameLiteral())
 }
 
 export function parseParens<T>(parser: IParser<T>): IParser<T> {
