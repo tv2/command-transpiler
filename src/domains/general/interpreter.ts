@@ -43,7 +43,21 @@ export function interpretIn({ varname, args }: IInterpreterContext): IInterpret 
   }
 }
 
-// TODO: Check how to best use type here
+export function interpretKeep({ varname, args }: IInterpreterContext): IInterpret {
+  const argVarname = args?.varname ?? varname
+  return (store) => ({
+    ...store,
+    [argVarname]: store[varname],
+    '@keep': {
+      ...store['@keep'],
+      [argVarname]: store[varname]
+    }
+  })
+}
+export function interpretVoid({ varname }: IInterpreterContext): IInterpret {
+  return (store) => ({ ...store, [varname]: undefined })
+}
+
 export default function interpretModifier({ modifier: type, args }: IModifier, varname: string) {
   const context = { varname, args }
   switch (type) {
@@ -54,6 +68,8 @@ export default function interpretModifier({ modifier: type, args }: IModifier, v
     case 'not': return interpretNot(context)
     case 'exists': return interpretExists(context)
     case 'in': return interpretIn(context)
+    case 'keep': return interpretKeep(context)
+    case 'void': return interpretVoid(context)
     default:
       throw Error(`Unknown General modifier: ${type}`)
   }

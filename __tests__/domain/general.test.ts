@@ -1,5 +1,5 @@
 export {}
-const { Condition, Template } = require('../../src')
+const { Pattern, Condition, Template } = require('../../src')
 
 test('length', () => {
   const condition = new Condition('text | length')
@@ -65,18 +65,18 @@ test('not not', () => {
 
 test('default 5', () => {
   const condition = new Template('#{ text | default 5 }')
-  expect(condition.fill({})).toEqual('5')
-  expect(condition.fill({ text: 2 })).toEqual('2')
-  expect(condition.fill({ text: 5 })).toEqual('5')
-  expect(condition.fill({ text: 'hello' })).toEqual('hello')
+  expect(condition.fill({})?.result).toEqual('5')
+  expect(condition.fill({ text: 2 })?.result).toEqual('2')
+  expect(condition.fill({ text: 5 })?.result).toEqual('5')
+  expect(condition.fill({ text: 'hello' })?.result).toEqual('hello')
 })
 
 test('default "hello world"', () => {
   const template = new Template('#{ text | default "hello world" }')
-  expect(template.fill({})).toEqual('hello world')
-  expect(template.fill({ text: 2 })).toEqual('2')
-  expect(template.fill({ text: 5 })).toEqual('5')
-  expect(template.fill({ text: 'hello' })).toEqual('hello')
+  expect(template.fill({})?.result).toEqual('hello world')
+  expect(template.fill({ text: 2 })?.result).toEqual('2')
+  expect(template.fill({ text: 5 })?.result).toEqual('5')
+  expect(template.fill({ text: 'hello' })?.result).toEqual('hello')
 })
 
 test('exists', () => {
@@ -154,4 +154,52 @@ test('in (mixed list)', () => {
   expect(condition.check({ text: 'two' })).toBeTruthy()
   expect(condition.check({ text: 'seven' })).toBeTruthy()
   expect(condition.check({ text: 'eight' })).toBeFalsy()
+})
+
+test('keep with no variable name (pattern)', () => {
+  const pattern = new Pattern('#{ word : theWord | keep }')
+  expect(pattern.match('hello')).toMatchObject({ theWord: 'hello', '@keep': { theWord: 'hello' } })
+  expect(pattern.match('popsicle')).toMatchObject({ theWord: 'popsicle', '@keep': { theWord: 'popsicle' } })
+})
+
+test('keep with variable name (pattern)', () => {
+  const pattern = new Pattern('#{ word : theWord | keep keepTheWord }')
+  expect(pattern.match('hello')).toMatchObject({ theWord: 'hello', '@keep': { keepTheWord: 'hello' } })
+  expect(pattern.match('popsicle')).toMatchObject({ theWord: 'popsicle', '@keep': { keepTheWord: 'popsicle' } })
+})
+
+test('keep with no variable name with void (pattern)', () => {
+  const pattern = new Pattern('#{ word : theWord | keep | void }')
+  expect(pattern.match('hello')).toMatchObject({ theWord: undefined, '@keep': { theWord: 'hello' } })
+  expect(pattern.match('popsicle')).toMatchObject({ theWord: undefined, '@keep': { theWord: 'popsicle' } })
+})
+
+test('keep with variable name and void (pattern)', () => {
+  const pattern = new Pattern('#{ word : theWord | keep keepTheWord | void }')
+  expect(pattern.match('hello')).toMatchObject({ theWord: undefined, '@keep': { keepTheWord: 'hello' } })
+  expect(pattern.match('popsicle')).toMatchObject({ theWord: undefined, '@keep': { keepTheWord: 'popsicle' } })
+})
+
+test('keep with no variable name (template)', () => {
+  const template = new Template('#{ theWord | keep }')
+  expect(template.fill({ theWord: 'hello' })?.store).toMatchObject({ theWord: 'hello' })
+  expect(template.fill({ theWord: 'popsicle' })?.store).toMatchObject({ theWord: 'popsicle' })
+})
+
+test('keep with variable name (template)', () => {
+  const template = new Template('#{ theWord | keep keepTheWord }')
+  expect(template.fill({ theWord: 'hello' })?.store).toMatchObject({ keepTheWord: 'hello' })
+  expect(template.fill({ theWord: 'popsicle' })?.store).toMatchObject({ keepTheWord: 'popsicle' })
+})
+
+test('keep with no variable name with void (template)', () => {
+  const template = new Template('#{ theWord | keep | void }')
+  expect(template.fill({ theWord: 'hello' })?.store).toMatchObject({ theWord: 'hello' })
+  expect(template.fill({ theWord: 'popsicle' })?.store).toMatchObject({ theWord: 'popsicle' })
+})
+
+test('keep with variable name and void (template)', () => {
+  const template = new Template('#{ theWord | keep keepTheWord | void }')
+  expect(template.fill({ theWord: 'hello' })?.store).toMatchObject({ keepTheWord: 'hello' })
+  expect(template.fill({ theWord: 'popsicle' })?.store).toMatchObject({ keepTheWord: 'popsicle' })
 })
