@@ -35,7 +35,7 @@ export class Rule {
     const { result, store: newStore } = this.fill(store)
     return {
       result,
-      store: { ...args, ...newStore },
+      store: { ...newStore },
     }
   }
 }

@@ -1,7 +1,7 @@
 import { pipe, map, string, ws1, many1, any, optional } from '../../utilities/parser-combinator/combinators'
 import { IParser } from '../../utilities/parser-combinator'
 import { IModifier } from '../../common/types'
-import { parseLiteral, parseExtendedLiteral, parseVarnameLiteral, parseNumberLiteral } from '../../base/parser'
+import { parseLiteral, parseExtendedLiteral, parseVarname, parseVarnameLiteral, parseNumberLiteral } from '../../base/parser'
 
 const domain = 'general'
 
