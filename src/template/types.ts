@@ -1,4 +1,5 @@
 export * from '../common/types'
+import { IStore } from '../common/types'
 import { IModifiers } from '../common/types'
 
 export type IAST = ILeaf[]
@@ -20,4 +21,9 @@ export type IModifiableLeaf = Readonly<{
   type: LeafKind.Modifiable
   varname: string
   modifiers: IModifiers
+}>
+
+export type IResult = Readonly<{
+  result: string,
+  store: IStore
 }>
