@@ -23,15 +23,19 @@ export class Rule {
     return this.condition.check(store)
   }
 
-  public fill(store: IStore): string {
+  public fill(store: IStore): { result: string; store: IStore } {
     return this.template.fill(store)
   }
 
-  public transpile(text: string, args: IStore): string | null {
+  public transpile(text: string, args: IStore): { result: string; store: IStore } | null {
     const data = this.match(text)
     if (data === null) return null
     const store = { ...data, ...args }
     if (!this.check(store)) return null
-    return this.fill(store)
+    const { result, store: newStore } = this.fill(store)
+    return {
+      result,
+      store: { ...newStore },
+    }
   }
 }

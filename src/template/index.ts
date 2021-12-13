@@ -1,10 +1,10 @@
-import { IStore } from './types'
+import { IStore, IResult } from './types'
 import { parse } from './parser'
 import { interpret } from './interpreter'
 
 export class Template {
   readonly raw: string
-  protected interpret: (store: IStore) => string
+  protected interpret: (store: IStore) => IResult
 
   constructor(raw: string) {
     this.raw = raw
@@ -15,7 +15,7 @@ export class Template {
     this.interpret = interpret(template.value)
   }
 
-  public fill(store: IStore): string {
+  public fill(store: IStore): IResult {
     return this.interpret(store)
   }
 }

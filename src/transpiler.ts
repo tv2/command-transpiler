@@ -8,14 +8,16 @@ export class Transpiler {
     this.rules = rules
   }
 
-  transpile(text: string, initialStore: IStore = {}): { result: string; line: number } | null {
+  transpile(text: string, initialStore: IStore = {}): { result: string; store: IStore; line: number } | null {
     for (const [line, rule] of this.rules.entries()) {
       const argStore = rule.match(text)
       if (argStore == null) continue
       const store = { ...initialStore, ...argStore }
       if (!rule.check(store)) continue
+      const resultAndStore = rule.fill(store)
       return {
-        result: rule.fill(store),
+        result: resultAndStore.result,
+        store: resultAndStore.store,
         line,
       }
     }

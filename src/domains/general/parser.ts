@@ -1,7 +1,7 @@
-import { pipe, map, string, ws1, many1, any } from '../../utilities/parser-combinator/combinators'
+import { pipe, map, string, ws1, many1, any, optional } from '../../utilities/parser-combinator/combinators'
 import { IParser } from '../../utilities/parser-combinator'
 import { IModifier } from '../../common/types'
-import { parseLiteral, parseExtendedLiteral, parseVarnameLiteral, parseNumberLiteral } from '../../base/parser'
+import { parseLiteral, parseExtendedLiteral, parseVarname, parseVarnameLiteral, parseNumberLiteral } from '../../base/parser'
 
 const domain = 'general'
 
@@ -48,3 +48,13 @@ export function parseIn(): IParser<IModifier> {
     args: { value },
   }))
 }
+
+export function parseKeep(): IParser<IModifier> {
+  return map(pipe(string('keep'), optional(pipe(ws1, parseVarname()))), (varname) => ({ domain, modifier: 'keep', args: { varname } }))
+}
+
+export function parseVoid(): IParser<IModifier> {
+  return map(string('void'), () => ({ domain, modifier: 'void' }))
+}
+
+
