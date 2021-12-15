@@ -240,6 +240,12 @@ test('keep with variable name (pattern)', () => {
   expect(pattern.match('popsicle')).toMatchObject({ theWord: 'popsicle', '@keep': { keepTheWord: 'popsicle' } })
 })
 
+test('keep with no varname, but keep name (pattern)', () => {
+  const pattern = new Pattern('#{ word | keep keepTheWord }')
+  expect(pattern.match('hello')).toMatchObject({ '@keep': { keepTheWord: 'hello' } })
+  expect(pattern.match('popsicle')).toMatchObject({ '@keep': { keepTheWord: 'popsicle' } })
+})
+
 test('keep with no variable name with void (pattern)', () => {
   const pattern = new Pattern('#{ word : theWord | keep | void }')
   expect(pattern.match('hello')).toMatchObject({ theWord: undefined, '@keep': { theWord: 'hello' } })
@@ -250,6 +256,11 @@ test('keep with variable name and void (pattern)', () => {
   const pattern = new Pattern('#{ word : theWord | keep keepTheWord | void }')
   expect(pattern.match('hello')).toMatchObject({ theWord: undefined, '@keep': { keepTheWord: 'hello' } })
   expect(pattern.match('popsicle')).toMatchObject({ theWord: undefined, '@keep': { keepTheWord: 'popsicle' } })
+})
+test('keep with variable name (pattern no ":")', () => {
+  const pattern = new Pattern('#{ word | keep keepTheWord | void }')
+  expect(pattern.match('hello')).toMatchObject({ '@keep': { keepTheWord: 'hello' } })
+  expect(pattern.match('popsicle')).toMatchObject({ '@keep': { keepTheWord: 'popsicle' } })
 })
 
 test('keep with no variable name (template)', () => {
